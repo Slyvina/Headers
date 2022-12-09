@@ -17,9 +17,10 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // EndLic
+
 #pragma once
 #include <algorithm>
-#include<Slyvina.hpp>
+#include <Slyvina.hpp>
 
 namespace Slyvina {
 	namespace Units {
@@ -76,11 +77,11 @@ namespace Slyvina {
 		/// <param name="ori"></param>
 		/// <param name="subst"></param>
 		/// <returns></returns>
-		String TReplace(String mystr, char ori, char subst);
+		std::string ChReplace(std::string mystr, char ori, char subst); // I don't know, but when the Slyvina definition the linker goes lying about the situation. That is why I sometimes HATE C and C++.
 
-		String TReplace(String mystr, String ori, String subst);
+		String StReplace(String mystr, String ori, String subst);
 
-		String TReplace(String mystr, char ori, String subst);
+		String CSReplace(String mystr, char ori, String subst);
 
 
 
@@ -145,7 +146,7 @@ namespace Slyvina {
 
 		inline std::string StringJoin(std::string lnk, std::vector<std::string> strs) {
 			String ret{ "" };
-			for (auto s : strs) {
+			for (String s : strs) {
 				if (ret.size()) ret += lnk;
 				ret += s;
 			}

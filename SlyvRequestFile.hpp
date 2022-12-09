@@ -32,5 +32,14 @@ namespace Slyvina {
 		/// Simple file request routine. Will return a file name if succesful, will return an empty string if not. RequestFileError() will then contain the error message.
 		/// </summary>
 		String RequestFile(String Caption = "Please select a file", String InitDir=".", String Filter = "All:*\0",bool Save=false);
+
+		/// <summary>
+		/// Request a file to be saved
+		/// </summary>
+		/// <param name="Caption"></param>
+		/// <param name="InitDir"></param>
+		/// <param name="Filter"></param>
+		/// <returns></returns>
+		inline String RequestSaveFile(String Caption = "Please enter a file name to save", String InitDir = ".", String Filter = "All:*\0") { return RequestFile(Caption, InitDir, Filter, true); }
 	}
 }
