@@ -1,7 +1,7 @@
 // Lic:
 // Units/Headers/Slyvina.hpp
 // Slyvina - Core Header
-// version: 22.12.08
+// version: 22.12.09
 // Copyright (C) 2022 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -87,7 +87,7 @@ namespace Slyvina {
 	typedef unsigned short int uint16;
 	
 	typedef int Int32;
-	typedef unsigned Int uint32;
+	typedef unsigned int uint32;
 	typedef int Int32;
 	typedef unsigned int uInt32;
 	
@@ -96,9 +96,11 @@ namespace Slyvina {
 	typedef long long int Int64;
 	typedef unsigned long long int uInt64;
 	
+	typedef std::shared_ptr<std::vector<String>> VecString;
+	inline VecString NewVecString() { return std::make_shared<std::vector<String>>(); }
 	
 	// Quick creation functions!
 	template<class MyType> inline MyType Nieuw() { return std::make_shared<MyType>(); }
-	template<class MyType> inline std::shared_ptr<vector<MyType>> NewVector() { return std::make_shared<vector<MyType>>(); }
+	template<class MyType> inline std::shared_ptr<std::vector<MyType>> NewVector() { return std::make_shared<std::vector<MyType>>(); }
 	
 }
