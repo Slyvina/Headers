@@ -1,7 +1,7 @@
 // Lic:
 // Units/Headers/Slyvina.hpp
 // Slyvina - Core Header
-// version: 22.12.09
+// version: 22.12.15
 // Copyright (C) 2022 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -51,23 +51,23 @@
 			#else
 				#define SlyvWin32
 			#endif
-		#elif __APPLE__
+		#elif defined(__APPLE__)
 			#define SlyvApple
-			#if TARGET_IPHONE_SIMULATOR
+			#ifdef TARGET_IPHONE_SIMULATOR
 				#define SlyvIPhoneEmulator
 				#define SlyvIPhone
-			#elif TARGET_OS_IPHONE
+			#elif defined(TARGET_OS_IPHONE)
 				#define SlyvIPhone
 				#define SlyvIPhoneReal
-		    #elif TARGET_OS_MAC
+		    #elif defined(TARGET_OS_MAC)
 				#define SlyvMacOS
 				#define SlyvMac
 			#else
-				#   error "Unknown Apple platform"
+				#error "Unknown Apple platform"
 			#endif
-		#elif __linux__
+		#elif defined(__linux__)
 			#define SlyvLinux
-		#elif __unix__ 
+		#elif defined(__unix__)
 			#define SlyvUnix
 		#elif defined(_POSIX_VERSION)
 			#define SlyvPOSIX
@@ -76,8 +76,15 @@
 		#endif		
 
 namespace Slyvina {
-	
+
 	typedef std::string String;
+
+#pragma region Integer
+	// Please note. This only works in x64 (LittleEndian) now. 
+	// If anything changes due to other processors,
+	// #ifdef should be used in detection and then coming up with 
+	// new definitions are in order to make sure the definitions remain correct.
+	
 	typedef char Char;
 	typedef unsigned char Byte;
 	typedef unsigned char byte;
@@ -86,7 +93,7 @@ namespace Slyvina {
 	typedef unsigned short int uInt16;
 	typedef unsigned short int uint16;
 	
-	typedef int Int32;
+	typedef int int32;
 	typedef unsigned int uint32;
 	typedef int Int32;
 	typedef unsigned int uInt32;
@@ -95,9 +102,17 @@ namespace Slyvina {
 	typedef unsigned long long int uint64;
 	typedef long long int Int64;
 	typedef unsigned long long int uInt64;
+#pragma endregion
+
+	inline std::string boolstring(bool k) { if (k) return "True"; else return "False"; }
+
+	const double PI = 3.1415926535;
 	
 	typedef std::shared_ptr<std::vector<String>> VecString;
 	inline VecString NewVecString() { return std::make_shared<std::vector<String>>(); }
+
+	typedef std::shared_ptr<std::map<std::string, std::string>> StringMap;
+	inline StringMap NewStringMap() { return std::make_shared<std::map<std::string, std::string>>(); }
 	
 	// Quick creation functions!
 	template<class MyType> inline MyType Nieuw() { return std::make_shared<MyType>(); }

@@ -1,7 +1,7 @@
 // Lic:
 // Units/Headers/SlyvString.hpp
 // Slyvina - Quick String Handler (header)
-// version: 22.12.09
+// version: 22.12.14
 // Copyright (C) 2022 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -26,52 +26,52 @@ namespace Slyvina {
 	namespace Units {
 
 		/// <summary>
-		/// Portion of a string
+		/// Portion of a std::string
 		/// </summary>
 		/// <param name="str"></param>
 		/// <param name="start"></param>
 		/// <param name="length"></param>
 		/// <returns></returns>
-		String Mid(String str, unsigned int start, unsigned int length);
+		std::string Mid(std::string str, unsigned int start, unsigned int length);
 
-		String Mid(String str, unsigned int start, unsigned int length, String newstring);
+		std::string Mid(std::string str, unsigned int start, unsigned int length, std::string newstring);
 
 
-		inline String Left(String str, unsigned int length) { return Mid(str, 1, length); }
-		inline String Right(String str, unsigned int length) {
+		inline std::string Left(std::string str, unsigned int length) { return Mid(str, 1, length); }
+		inline std::string Right(std::string str, unsigned int length) {
 			if (length > str.size()) return str;
 			return Mid(str, (str.size() - length) + 1, length);
 		}
-		//string right(string str, size_t length) { return right(str, (unsigned int)length); }
+		//std::string right(std::string str, size_t length) { return right(str, (unsigned int)length); }
 
 
-		inline bool Prefixed(String str, String prefix) { return Left(str, prefix.size()) == prefix; }
-		inline bool Suffixed(String str, String suffix) { return Right(str, suffix.size()) == suffix; }
+		inline bool Prefixed(std::string str, std::string prefix) { return Left(str, prefix.size()) == prefix; }
+		inline bool Suffixed(std::string str, std::string suffix) { return Right(str, suffix.size()) == suffix; }
 
 		/// <summary>
-		/// Find last occurance of a character in a string
+		/// Find last occurance of a character in a std::string
 		/// </summary>
 		/// <param name="str"></param>
 		/// <param name="ch"></param>
 		/// <returns>The index number of the last occurance or -1 when the character has not been found at all</returns>
-		int FindLast(String str, char ch);
+		int FindLast(std::string str, char ch);
 
-		int FindLast(String haystack, String needle);
+		int FindLast(std::string haystack, std::string needle);
 
-		inline int FindFirst(String str, char ch) {
+		inline int FindFirst(std::string str, char ch) {
 			for (int i = 0; i < str.size(); i++)
 				if (str[i] == ch) return i;
 			return -1;
 		}
 
-		inline int FindFirst(String str, String Needle) {			
+		inline int FindFirst(std::string str, std::string Needle) {			
 				for (int i = 0; i+Needle.size()<str.size() && i < str.size(); i++)
 					if (Mid(str,i,Needle.size()) == Needle) return i;
 				return -1;			
 		}
 
 		/// <summary>
-		/// Replace something in a string
+		/// Replace something in a std::string
 		/// </summary>
 		/// <param name="mystr"></param>
 		/// <param name="ori"></param>
@@ -79,9 +79,9 @@ namespace Slyvina {
 		/// <returns></returns>
 		std::string ChReplace(std::string mystr, char ori, char subst); // I don't know, but when the Slyvina definition the linker goes lying about the situation. That is why I sometimes HATE C and C++.
 
-		String StReplace(String mystr, String ori, String subst);
+		std::string StReplace(std::string mystr, std::string ori, std::string subst);
 
-		String CSReplace(String mystr, char ori, String subst);
+		std::string CSReplace(std::string mystr, char ori, std::string subst);
 
 
 
@@ -89,39 +89,39 @@ namespace Slyvina {
 
 		std::string StripDir(std::string file);
 
-		String StripExt(String file);
+		std::string StripExt(std::string file);
 
-		inline String StripAll(String file) { return StripDir(StripExt(file)); }
+		inline std::string StripAll(std::string file) { return StripDir(StripExt(file)); }
 
-		VecString Split(String str, char spltchar);
+		VecString Split(std::string str, char spltchar);
 
-		VecString Split(String str, char spltchar, int max);
-
-
-		VecString StringToLines(String str);
-
-		String Trim(String str);
-
-		inline void Trans2Upper(String& str) { std::transform(str.begin(), str.end(), str.begin(), ::toupper); }
-
-		inline void Trans2Lower(String& str) { std::transform(str.begin(), str.end(), str.begin(), ::tolower); }
+		VecString Split(std::string str, char spltchar, int max);
 
 
-		inline String Upper(String str) {
-			String ret = str;
+		VecString StringToLines(std::string str);
+
+		std::string Trim(std::string str);
+
+		inline void Trans2Upper(std::string& str) { std::transform(str.begin(), str.end(), str.begin(), ::toupper); }
+
+		inline void Trans2Lower(std::string& str) { std::transform(str.begin(), str.end(), str.begin(), ::tolower); }
+
+
+		inline std::string Upper(std::string str) {
+			std::string ret = str;
 			Trans2Upper(ret);
 			return ret;
 		}
 
-		inline String Lower(std::string str) {
-			String ret = str;
+		inline std::string Lower(std::string str) {
+			std::string ret = str;
 			Trans2Lower(ret);
 			return ret;
 		}
 
 		/*
-		string bsdec(const char* str) {
-			string ret = "";
+		std::string bsdec(const char* str) {
+			std::string ret = "";
 			for (int i = 0; str[i]; i++) {
 				auto c = str[i];
 				if (c == ' ' || (c >= 'a' && c <= 'z') || (c >= '0' && c <= ':') || (c >= 'A' && c <= 'Z'))
@@ -134,7 +134,7 @@ namespace Slyvina {
 			}
 			return ret;
 		}
-		string bsdec(string str) { return bsdec(str.c_str()); }
+		std::string bsdec(std::string str) { return bsdec(str.c_str()); }
 		*/
 
 
@@ -145,8 +145,8 @@ namespace Slyvina {
 		}
 
 		inline std::string StringJoin(std::string lnk, std::vector<std::string> strs) {
-			String ret{ "" };
-			for (String s : strs) {
+			std::string ret{ "" };
+			for (std::string s : strs) {
 				if (ret.size()) ret += lnk;
 				ret += s;
 			}
@@ -156,15 +156,23 @@ namespace Slyvina {
 		long long FindString(std::string Needle, std::string HayStack);
 
 
-		String ExtractExt(std::string file);
+		std::string ExtractExt(std::string file);
 
-		inline String Vec2Str(std::vector<char> input) {
-			String s(input.begin(), input.end());
+		inline std::string Vec2Str(std::vector<char> input) {
+			std::string s(input.begin(), input.end());
 			return s;
 		}
 
 
-		
-		String TrSPrintF(const char* fmt, ...);
+		/// <summary>
+		/// A quicker way for sprintf. Having to go trough all the trouble creating a c-string, and converting that into a C++ string class and blah blah blah was getting on my nerves!
+		/// </summary>
+		/// <param name="fmt">C format string</param>
+		/// <param name="">The values to be parsed in</param>
+		/// <returns>The Formatted string</returns>
+		std::string TrSPrintF(const char* fmt, ...);
+
+		std::wstring ToWString(const std::string& s);
+		std::string FromWString(std::wstring ws);
 	}
 }

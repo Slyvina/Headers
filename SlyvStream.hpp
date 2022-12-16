@@ -1,7 +1,7 @@
 // Lic:
 // Units/Headers/SlyvStream.hpp
 // Slyvina - Quick Stream Handler
-// version: 22.12.09
+// version: 22.12.13
 // Copyright (C) 2020, 2021, 2022 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -32,7 +32,8 @@ namespace Slyvina {
 		//using namespace std;
 		bool FileExists(char* file);
 		bool FileExists(std::string file);
-		std::string LoadString(std::string file);
+		std::string FLoadString(std::string file); // The F prefix is because MicroSoft has a macro with the same name.
+		VecString LoadLines(std::string file);
 		void LoadChars(std::vector<char>* vec, std::string file);
 		void SaveString(std::string file, std::string stringvalue);
 
@@ -84,11 +85,17 @@ namespace Slyvina {
 			void Write(unsigned long long i);
 			void Write(std::string s, bool raw = false);
 			void Write(std::vector<char> buf, bool storelength = false);
+			void Write(std::vector<byte> buf, bool storelength = false);
 
 			void WriteCString(const char* str);
 
+			void WriteBytes(byte* b, size_t L);
+			void WriteChars(char* b, size_t L);
+
 
 			unsigned long long Size();
+			inline std::streampos Position() { return stream.tellp(); }
+			void Position(uint64 p);
 
 			void Close();
 		};
@@ -109,6 +116,9 @@ namespace Slyvina {
 			unsigned long long size{ 0 };
 		public:
 			uint64 Size();
+			void Seek(uint64 position);
+			inline void Position(uint64 p) { Seek(p); }
+			uint64 Position();
 			True_InFile(std::string _filename, int endian = 1);
 			~True_InFile();
 			void Close();
@@ -122,7 +132,8 @@ namespace Slyvina {
 			uint64 ReadUInt64();
 			std::string ReadString(int l = 0);
 			void ReadChars(char* c, int size = 0);
-			std::vector<char> ReadChars(int size);
+			std::shared_ptr<std::vector<char>> ReadChars(int size);
+			std::shared_ptr<std::vector<byte>> ReadBytes(int size);
 			void ReadCString(char* c);
 			void ReadCString(char* c, int size);
 			std::string ReadCString();
