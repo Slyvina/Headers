@@ -1,7 +1,7 @@
 // Lic:
 // Units/Headers/SlyvGINIE.hpp
 // Slyvina - GINIE
-// version: 22.12.16
+// version: 22.12.19
 // Copyright (C) 2022 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
@@ -25,6 +25,8 @@
 #include <algorithm>
 
 
+#undef GINIE_DEBUG
+
 /*
 
 GINIE = GINIE is not INI either.
@@ -38,6 +40,7 @@ GINIE is in most ways compatible with base config files in .ini form, whoever th
 
 Now unlike most of my libraries were I recommend to only use either the share_ptr or unique_ptr variants, GINIE should be safe to use Raw_GENIE, but I ain't a fan of that.
 */
+
 
 
 namespace Slyvina {
@@ -70,14 +73,14 @@ namespace Slyvina {
 						case '\n': ret += "\n# "; break;
 						default: ret += Header[i]; break;
 						}
-						ret += "\n\n";
 					}
+					ret += "\n\n";
 				}
 				std::map<std::string, bool>CatDone{};
 				for (auto& cat : _Values) {
 					CatDone[cat.first] = true;
 					ret += "["; ret += cat.first; ret += "]\n";
-					for (auto& val : cat.second) { ret += val.first + "=" + val.second; }
+					for (auto& val : cat.second) { ret += val.first + "=" + val.second+"\n"; }
 					if (_Lists.count(cat.first)) for (auto& lst : _Lists[cat.first]) {
 						ret += "*list:" + lst.first + "\n";
 						for (auto item : lst.second) { ret += "\t" + item + "\n"; }
@@ -129,6 +132,19 @@ namespace Slyvina {
 			}
 
 			/// <summary>
+			/// Does a value exist?
+			/// </summary>
+			/// <param name="cat"></param>
+			/// <param name="key"></param>
+			/// <returns></returns>
+			inline bool HasValue(std::string cat, std::string key) {
+				Trans2Upper(cat);
+				Trans2Upper(key);
+				if (!_Values.count(cat)) return false;
+				return _Values[cat].count(key);
+			}
+
+			/// <summary>
 			/// Add to a list (if the list doesn't yet exist, it will be created)
 			/// </summary>
 			/// <param name="cat"></param>
@@ -173,13 +189,19 @@ namespace Slyvina {
 			/// <param name="merge">If set to true the content will be merged with the existing data. If set to false, the existing data will be disposed</param>
 			inline void Parse(std::string source, bool merge = false) {
 				if (!merge) { _Values.clear(); _Lists.clear(); }
-				auto src{ Split(source,'\r') };
+				auto src{ Split(source,'\n') };
 				std::string cat{ "" };
 				std::string list{ "" };
 				for (size_t i = 0; i < src->size(); ++i) {
 					auto linenum{ i + 1 };
 					auto line{ Trim((*src)[i]) };
-					if ((!line.size()) || (line[0] == '#' || list == "")) {
+#ifdef GINIE_DEBUG
+					std::cout << "Paring line " << linenum << "/" << src->size() << ": " << line << std::endl;
+#endif
+					if ((!line.size()) || (line[0] == '#' && list == "")) {
+#ifdef GINIE_DEBUG
+						std::cout << "Whiteline or comment! Must ignore\n";
+#endif
 						// Do NOTHING at all. Whitelines and comments are to be ignored!
 					} else if (list.size()) {
 						if (Upper(line) == "*END")
@@ -188,9 +210,9 @@ namespace Slyvina {
 							Add(cat, list, line);
 					} else if (line[0] == '[' && line[line.size() - 1] == ']') {
 						cat = Mid(line, 2, line.size() - 2);
-					} else if (Prefixed(Upper(line), "list:")) {
+					} else if (Prefixed(Upper(line), "*LIST:")) {
 						if (!cat.size()) { std::cout << "GINIE ERROR! Categoryless list started in line " << linenum << "\n"; return; }
-						list = line.substr(5);
+						list = line.substr(6);
 						if (!list.size()) { std::cout << "GINIE ERROR! Namelist list in line " << linenum << "\n"; return; }
 					} else {
 						if (!cat.size()) { std::cout << "GINIE ERROR! Categoryless value definition in line " << linenum << "\n"; return; }
