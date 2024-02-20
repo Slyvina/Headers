@@ -1,8 +1,8 @@
 // Lic:
-// Units/Headers/SlyvTime.hpp
-// Slyvina - Time (header)
-// version: 23.07.22
-// Copyright (C) 2021, 2022, 2023 Jeroen P. Broks
+// Kthura/Headers/Kthura_Save.hpp
+// Slyvina - Kthura - Save (header)
+// version: 23.03.06
+// Copyright (C) 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
@@ -17,20 +17,17 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // EndLic
-#pragma once
 
-#include <time.h>
-#include <string>
+#pragma once
+#include "Kthura_Core.hpp"
+#include <JCR6_Write.hpp>
 
 namespace Slyvina {
-	namespace Units {
-		//std::string GetTimeBuff();
-		std::string CurrentDate();
-		std::string CurrentTime();
-		std::string QTimeF(const char* f);
-		int CurrentYear();
-		tm _localtime(time_t* fuck);
-		tm LocalTime();
-		time_t TimeStamp();
+
+	namespace Kthura {
+
+		void Kthura_Save(Kthura M, JCR6::JT_Create J, std::string Dir = "", std::string storage = "Store", std::string Author = "", std::string Notes = "");
+		void Kthura_Save(Kthura M, std::string File, std::string Dir = "", std::string storage = "Store", std::string Author = "", std::string Notes = "");
+
 	}
 }

@@ -1,8 +1,8 @@
 // Lic:
-// Units/Headers/SlyvTime.hpp
-// Slyvina - Time (header)
-// version: 23.07.22
-// Copyright (C) 2021, 2022, 2023 Jeroen P. Broks
+// head/june19_tabber.hpp
+// June 19 - Tabber (header)
+// version: 23.05.11
+// Copyright (C) 2020, 2021, 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
@@ -17,20 +17,27 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // EndLic
+
 #pragma once
 
-#include <time.h>
-#include <string>
+#include "june19_core.hpp"
 
 namespace Slyvina {
-	namespace Units {
-		//std::string GetTimeBuff();
-		std::string CurrentDate();
-		std::string CurrentTime();
-		std::string QTimeF(const char* f);
-		int CurrentYear();
-		tm _localtime(time_t* fuck);
-		tm LocalTime();
-		time_t TimeStamp();
+	namespace June19 {
+
+		j19gadget* CreateTabber(int x, int y, int w, int h, j19gadget* group);
+
+		// Get the data of the tab of your choice;
+		j19gadget* GetTab(j19gadget* g, size_t idx);
+
+		// Get the data of the currently active tab
+		j19gadget* GetTab(j19gadget* g);
+
+		// Create a tab and get the panel attached to it. (Please note initially the tab will have the same sizes as its host tabber, however this can automatically be adapted in order to keep fitting when more tabs are added (or tabs are being removed)
+		j19gadget* AddTab(j19gadget* parent, std::string Caption);
+
+		// Get the latest error message concerning tabs
+		std::string GetTabError();
+
 	}
 }

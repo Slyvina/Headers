@@ -1,8 +1,8 @@
 // Lic:
 // JCR6/Headers/JCR6_Core.hpp
 // Slyvina - JCR6 - Core (header)
-// version: 22.12.17
-// Copyright (C) 2022 Jeroen P. Broks
+// version: 23.08.01
+// Copyright (C) 2022, 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
@@ -19,6 +19,10 @@
 // EndLic
 
 #pragma once
+
+// This definition is for libraries which can optionally use JCR6. Please note that you must include the core header then before you include the library's header.
+#define Slyvina_JCR6_Core_Present
+
 #include <Slyvina.hpp>
 #include <SlyvString.hpp>
 #include <SlyvBank.hpp>
@@ -32,6 +36,7 @@
 * And of course their respective headers must be available!
 */
 
+using namespace Slyvina::Units;
 
 namespace Slyvina {
 	namespace JCR6 {
@@ -114,7 +119,12 @@ namespace Slyvina {
 			/// </summary>
 			/// <param name="Entry"></param>
 			/// <returns>true if the entry is found and false if not.</returns>
-			inline bool EntryExists(std::string Entry) { return _Entries.count(EName(Entry)); }
+			inline bool EntryExists(std::string Entry) { 
+				if (!this) {
+					JCR6_Panic("EntryExists(\"" + Entry + "\"): Resource object appears to be null!", "??", Entry); return false;
+				}
+				return _Entries.count(EName(Entry)); 
+			}
 
 			JT_Entry Entry(std::string Ent);
 			std::shared_ptr<std::vector<JT_Entry>> Entries();
@@ -190,9 +200,22 @@ namespace Slyvina {
 			int32 Correction{ 0 };
 			inline int32 Block() { return _ConfigInt["__Block"]; }
 			int32 Offset();
+			void Offset(int32 _offs);
 			inline std::string Name() { return _ConfigString["__Entry"]; }
 			inline int32 CompressedSize() { return _ConfigInt["__CSize"]; }
 			inline int32 RealSize() { return _ConfigInt["__Size"]; }
+			inline std::string Author() { return _ConfigString["__Author"]; }
+			inline std::string Notes() { return _ConfigString["__Notes"]; }
+			inline void Name(std::string _n) { _ConfigString["__Entry"] = Units::ChReplace(_n, '\\', '/'); };
+			inline void RealSize(int32 _s){ _ConfigInt["__Size"]= (int)_s; }
+			inline void CompressedSize(int32 _s) { _ConfigInt["__CSize"] = (int)_s; }
+			inline void Author(std::string _a) { _ConfigString["__Author"] = _a; }
+			inline void Notes(std::string _n) { _ConfigString["__Notes"] = _n; }
+			inline void Storage(std::string _st) { _ConfigString["__Storage"] = _st; }
+
+			//std::string& Entry{_ConfigString["__Entry"] }; // Does this do what I think (and hope) it does?
+			
+			
 			JT_Entry Copy();
 		};
 

@@ -1,8 +1,8 @@
 // Lic:
-// Units/Headers/SlyvTime.hpp
-// Slyvina - Time (header)
-// version: 23.07.22
-// Copyright (C) 2021, 2022, 2023 Jeroen P. Broks
+// head/june19_label.hpp
+// June 19 - Label (header)
+// version: 23.05.11
+// Copyright (C) 2020, 2021, 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
@@ -19,18 +19,18 @@
 // EndLic
 #pragma once
 
-#include <time.h>
-#include <string>
+#include "june19_core.hpp"
+
 
 namespace Slyvina {
-	namespace Units {
-		//std::string GetTimeBuff();
-		std::string CurrentDate();
-		std::string CurrentTime();
-		std::string QTimeF(const char* f);
-		int CurrentYear();
-		tm _localtime(time_t* fuck);
-		tm LocalTime();
-		time_t TimeStamp();
+	namespace June19 {
+		const int LABEL_LEFT = 0;
+		const int LABEL_RIGHT = 1;
+		const int LABEL_CENTER = 2;
+
+		j19gadget* CreateLabel(std::string name, int x, int y, int w, int h, j19gadget* group, int style = LABEL_LEFT);
+		j19gadget* CreateLabelR(std::string name, int x, int y, int w, int h, j19gadget* group, int style = LABEL_LEFT);
+
+		j19gadget* CreatePanel(int x, int y, int w, int h, j19gadget* group, j19ctype a = j19ctype::Absolute);
 	}
 }

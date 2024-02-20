@@ -1,8 +1,8 @@
 // Lic:
-// Units/Headers/SlyvTime.hpp
-// Slyvina - Time (header)
-// version: 23.07.22
-// Copyright (C) 2021, 2022, 2023 Jeroen P. Broks
+// head/june19.hpp
+// June 19 All Headers United
+// version: 23.05.11
+// Copyright (C) 2020, 2021, 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
@@ -18,19 +18,12 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // EndLic
 #pragma once
-
-#include <time.h>
-#include <string>
-
-namespace Slyvina {
-	namespace Units {
-		//std::string GetTimeBuff();
-		std::string CurrentDate();
-		std::string CurrentTime();
-		std::string QTimeF(const char* f);
-		int CurrentYear();
-		tm _localtime(time_t* fuck);
-		tm LocalTime();
-		time_t TimeStamp();
-	}
-}
+#include "june19_tabber.hpp"
+#include "june19_core.hpp"
+#include "june19_radio.hpp"
+#include "june19_checkbox.hpp"
+#include "june19_textfield.hpp"
+#include "june19_button.hpp"
+#include "june19_label.hpp"
+#include "june19_listbox.hpp"
+#include "june19_picture.hpp"

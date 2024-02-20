@@ -1,8 +1,8 @@
 // Lic:
 // Units/Headers/SlyvEndian.hpp
 // Slyvina - Endian Handler (header)
-// version: 22.12.13
-// Copyright (C) 2022 Jeroen P. Broks
+// version: 23.03.06
+// Copyright (C) 2022, 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
@@ -45,7 +45,7 @@ namespace Slyvina {
 		inline bool IsBigEndian() { return !IsLittleEndian(); }
 
 		inline __AllNum __Swap(__AllNum O, size_t L) {
-			__AllNum T;
+			__AllNum T{};
 			for (byte i = 0; i < L; ++i) T.check[(L - 1) - i] = O.check[i];
 			return T;
 		}

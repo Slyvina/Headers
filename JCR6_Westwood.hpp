@@ -1,8 +1,8 @@
 // Lic:
-// Units/Headers/SlyvTime.hpp
-// Slyvina - Time (header)
-// version: 23.07.22
-// Copyright (C) 2021, 2022, 2023 Jeroen P. Broks
+// JCR6/Headers/JCR6_Westwood.hpp
+// Slyvina - JCR6 - Westwood PAK support (header)
+// version: 23.03.06
+// Copyright (C) 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
@@ -18,19 +18,23 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // EndLic
 #pragma once
+#include "JCR6_Core.hpp"
 
-#include <time.h>
-#include <string>
 
 namespace Slyvina {
-	namespace Units {
-		//std::string GetTimeBuff();
-		std::string CurrentDate();
-		std::string CurrentTime();
-		std::string QTimeF(const char* f);
-		int CurrentYear();
-		tm _localtime(time_t* fuck);
-		tm LocalTime();
-		time_t TimeStamp();
+	namespace JCR6 {
+
+		/// <summary>
+		/// When set to 'false', Westwood PAK files will not be recognized. This can speed things up a little or prevent conflicts due to the chance of false positives.		
+		/// </summary>
+		void Westwood_Enable(bool _enabled = true);
+
+
+		/// <summary>
+		/// Returns the last error that occurred during the attempt to scan a Westwood pack file
+		/// </summary>
+		std::string Westwoord_LastError();
+
+		void Westwood_Init(bool support = true);
 	}
 }

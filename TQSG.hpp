@@ -1,8 +1,8 @@
 // Lic:
 // TQSL/Headers/TQSG.hpp
 // Tricky's Quick SDL2 Graphics (header)
-// version: 22.12.19
-// Copyright (C) 2022 Jeroen P. Broks
+// version: 24.02.18
+// Copyright (C) 2022, 2023, 2024 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
@@ -26,6 +26,11 @@
 
 namespace Slyvina {
 	namespace TQSG {
+
+		/// <summary>
+		/// If set to false the program will terminate on double char errors. Otherwise it will just "ignore" them and terminate the Text request and continue after that like nothing happened.
+		/// </summary>
+		extern bool IgnoreDoubleCharError;
 
 		class _____TIMAGE; // NEVER USE THIS TYPE DIRECTLY! ONLY USE 'TImage' or 'TUImage' in stead, or you'll regret it!!!
 		typedef std::shared_ptr<_____TIMAGE> TImage; // A shared pointer to use for images.
@@ -108,6 +113,14 @@ namespace Slyvina {
 			void Draw(int x, int y, int frame = 0);
 
 			/// <summary>
+			/// Just draws an image at its true coordinates and true sizes. Hotspots will still be taken into account, but sizes, and alt screen settings will be ignored.
+			/// </summary>
+			/// <param name="x"></param>
+			/// <param name="y"></param>
+			/// <param name="frame"></param>
+			void TrueDraw(int x, int y, int frame = 0);
+
+			/// <summary>
 			/// Draws an image. Now rotation and such are also possible
 			/// </summary>
 			/// <param name="x"></param>
@@ -133,6 +146,8 @@ namespace Slyvina {
 
 			int Width();
 			int Height();
+
+			void GetFormat(int *width, int *height);
 
 			inline _____TIMAGE() {} // Just to avoid some crap
 			_____TIMAGE(std::string file);
@@ -163,6 +178,7 @@ namespace Slyvina {
 		public:
 			int TabWidth{ 40 };
 			void Text(std::string Text, int x, int y, Align ax = Align::Left, Align ay = Align::Top);
+			void Dark(std::string Text, int x, int y, Align ax = Align::Left, Align ay = Align::Top);
 			int Width(std::string Text);
 			int Height(std::string Text);
 			_____TIMAGEFONT(JCR6::JT_Dir Res, std::string p);
@@ -185,6 +201,12 @@ namespace Slyvina {
 		/// </summary>
 		/// <param name="alpha"></param>
 		void SetAlpha(byte);
+
+		/// <summary>
+		/// Sets Alpha on a value based between 0 and 1
+		/// </summary>
+		/// <param name="alpha"></param>
+		void SetAlphaD(double);
 
 		/// <summary>
 		/// Set the color value for rendering
@@ -257,6 +279,7 @@ namespace Slyvina {
 		void SetBlend(Blend _blend);
 		void SetBlend(SDL_BlendMode _blend);
 		void SetBlitzBlend(BlitzBlend _blend);
+		Blend GetBlend();
 
 		/// <summary>
 		/// Screen width (in graphics mode only). When pure is set to true, the altscreen settings will be ignored
@@ -311,6 +334,15 @@ namespace Slyvina {
 		void Line(int start_x, int start_y, int end_x, int end_y);
 
 		/// <summary>
+		/// Draws a line by recalculating the x,y by altscreen, but the line thickness and stuff is not changed.
+		/// </summary>
+		/// <param name="start_x"></param>
+		/// <param name="start_y"></param>
+		/// <param name="end_x"></param>
+		/// <param name="end_y"></param>
+		void ALine(int start_x, int start_y, int end_x, int end_y);
+
+		/// <summary>
 		/// Draw a rectangle
 		/// </summary>
 		/// <param name="x"></param>
@@ -325,7 +357,16 @@ namespace Slyvina {
 		/// </summary>
 		/// <param name="r"></param>
 		/// <param name="open"></param>
-		void Rect(SDL_Rect *r, bool open= false);
+		void Rect(SDL_Rect* r, bool open = false);
+
+		/// <summary>
+		/// Draws a rectengale, but in stead of width and height based on true coordinates
+		/// </summary>
+		/// <param name="sx">Start X</param>
+		/// <param name="sy">Start Y</param>
+		/// <param name="ex">End X</param>
+		/// <param name="ey">End Y</param>
+		void ExRect(int sx, int sy, int ex, int ey);
 
 		/// <summary>
 		/// Draw a circle
@@ -381,6 +422,9 @@ namespace Slyvina {
 
 
 		void SetMouse(int x, int y);
+
+		int ASX(int x);
+		int ASY(int y);
 
 
 		/// <summary>

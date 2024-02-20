@@ -1,8 +1,8 @@
 // Lic:
 // TQSL/Headers/TQSE.hpp
 // Tricky's Quick SDL Event Handler (header)
-// version: 22.12.18
-// Copyright (C) 2022 Jeroen P. Broks
+// version: 23.01.17
+// Copyright (C) 2022, 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
@@ -26,6 +26,8 @@ namespace Slyvina {
 	namespace TQSE {
 
 		std::string AllKeys(); // A list of all known keycodes. This function only exists for debug purposes (for me).
+		
+		std::vector<SDL_KeyCode> KeyArray();
 
 		typedef void (*EventFunction) (SDL_Event* Event);
 
@@ -63,7 +65,7 @@ namespace Slyvina {
 		// Will try to get a typable character the last event. Not fully accurate, but for typing names and such it can do the job.
 		unsigned char GetChar();
 
-
+		int GetMouseButtons();
 		int MouseX();
 		int MouseY();
 		void HideMouse();

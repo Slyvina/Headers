@@ -1,8 +1,8 @@
 // Lic:
-// Units/Headers/SlyvTime.hpp
-// Slyvina - Time (header)
-// version: 23.07.22
-// Copyright (C) 2021, 2022, 2023 Jeroen P. Broks
+// Units/Headers/DieParse.hpp
+// Die Parse
+// version: 23.06.23
+// Copyright (C) 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
@@ -18,19 +18,23 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // EndLic
 #pragma once
-
-#include <time.h>
-#include <string>
+#include <Slyvina.hpp>
 
 namespace Slyvina {
 	namespace Units {
-		//std::string GetTimeBuff();
-		std::string CurrentDate();
-		std::string CurrentTime();
-		std::string QTimeF(const char* f);
-		int CurrentYear();
-		tm _localtime(time_t* fuck);
-		tm LocalTime();
-		time_t TimeStamp();
+		byte D2();
+		byte D4();
+		byte D6();
+		byte D8();
+		byte D10(bool zero = true);
+		byte D12();
+		byte D20();
+		byte D30();
+		byte D100(bool zero = true);
+
+
+		// Quick and Dirty Parse! It's not fast or anything, but it works, and that's what matters.
+		extern byte QDMax;
+		std::string QDParse(std::string p);
 	}
 }

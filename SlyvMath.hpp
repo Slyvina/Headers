@@ -1,8 +1,8 @@
 // Lic:
-// Units/Headers/SlyvTime.hpp
-// Slyvina - Time (header)
+// Units/Headers/SlyvMath.hpp
+// Extra Math Routines
 // version: 23.07.22
-// Copyright (C) 2021, 2022, 2023 Jeroen P. Broks
+// Copyright (C) 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
@@ -19,18 +19,29 @@
 // EndLic
 #pragma once
 
-#include <time.h>
-#include <string>
+#undef SlyvMathDebug
+
+#ifdef SlyvMathDebug
+#include <stdio.h>
+#endif
+
+#include <cmath>
+
+
 
 namespace Slyvina {
 	namespace Units {
-		//std::string GetTimeBuff();
-		std::string CurrentDate();
-		std::string CurrentTime();
-		std::string QTimeF(const char* f);
-		int CurrentYear();
-		tm _localtime(time_t* fuck);
-		tm LocalTime();
-		time_t TimeStamp();
+
+		const double pi{ 3.14159265359 };
+
+		inline double DegSin(double i) { 
+#ifdef SlyvMathDebug
+			printf("DegSin(%f) -> %f\n", i, sin(i * (pi / 180)));
+#endif
+			return (sin(i * (pi / 180)));
+		}
+		inline double DegSin(int i) { return DegSin((double)i); }
+		inline double DegCos(double i) { return (cos(i * (pi / 180))); }
+		inline double DegCos(int i) { return DegCos((double)i); };
 	}
 }

@@ -1,8 +1,8 @@
 // Lic:
-// Units/Headers/SlyvTime.hpp
-// Slyvina - Time (header)
-// version: 23.07.22
-// Copyright (C) 2021, 2022, 2023 Jeroen P. Broks
+// JCR6/Headers/JCR6_QuakePAK.hpp
+// QuakePAK driver for JCR6 (header)
+// version: 23.06.23
+// Copyright (C) 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
@@ -18,19 +18,30 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // EndLic
 #pragma once
+#include "JCR6_WAD.hpp"
 
-#include <time.h>
-#include <string>
 
 namespace Slyvina {
-	namespace Units {
-		//std::string GetTimeBuff();
-		std::string CurrentDate();
-		std::string CurrentTime();
-		std::string QTimeF(const char* f);
-		int CurrentYear();
-		tm _localtime(time_t* fuck);
-		tm LocalTime();
-		time_t TimeStamp();
+	namespace JCR6 {
+
+		struct __QuakeConfig {
+			bool MergeWAD;
+			__WAD_Config WADConfig;
+		};
+
+		struct QHead {
+			bool IsQuake;
+			int FileCount, DirOffset;
+		};
+
+		extern __QuakeConfig QuakeConfig;
+
+		QHead IsQuake(std::string file);
+
+		JT_Dir QuakeDir(std::string file, std::string prefix, bool mergeWAD = false, __WAD_Config* WADC = nullptr);
+
+
+		void InitQuake();
+
 	}
 }

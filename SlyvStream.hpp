@@ -1,8 +1,8 @@
 // Lic:
 // Units/Headers/SlyvStream.hpp
 // Slyvina - Quick Stream Handler
-// version: 22.12.13
-// Copyright (C) 2020, 2021, 2022 Jeroen P. Broks
+// version: 23.06.23
+// Copyright (C) 2020, 2021, 2022, 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
@@ -17,6 +17,7 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // EndLic
+
 #pragma once
 #include <string>
 #include <vector>
@@ -32,10 +33,15 @@ namespace Slyvina {
 		//using namespace std;
 		bool FileExists(char* file);
 		bool FileExists(std::string file);
-		std::string FLoadString(std::string file); // The F prefix is because MicroSoft has a macro with the same name.
+		std::string FLoadString(std::string file,bool NoNull=false); // The F prefix is because MicroSoft has a macro with the same name.
 		VecString LoadLines(std::string file);
 		void LoadChars(std::vector<char>* vec, std::string file);
 		void SaveString(std::string file, std::string stringvalue);
+
+		/// <summary>
+		/// Loads a character buffer. Use with care, as the system does allocate memory which should be released after!
+		/// </summary>
+		char* LoadCharBuf(std::string File);
 
 		bool DirectoryExistsC(const char* folderName);
 		bool DirectoryExists(std::string folderName);
@@ -47,8 +53,14 @@ namespace Slyvina {
 		std::string CurrentDir();
 		void ChangeDir(std::string dir);
 
+		/// <summary>
+		/// Check the size of a file
+		/// </summary>
+		/// <param name="filename"></param>
+		/// <returns>File size in bytes</returns>
 		std::ifstream::pos_type FileSize(std::string filename);
 		std::string FileDate(std::string FileName);
+		time_t FileTimeStamp(std::string FileName);
 
 
 		class True_OutFile;
@@ -124,12 +136,14 @@ namespace Slyvina {
 			void Close();
 			char ReadChar();
 			byte ReadByte();
+			inline byte ReadByte(byte& b) { b = ReadByte(); return b; } // I know this looks a bit odd, but I don't like "while(a=St->ReadByte())" counting on it to go right.
 			int32 ReadInt();
 			int16 ReadInt16();
 			int64 ReadLong();
 			uint32 ReadUInt();
 			uint16 ReadUInt16();
 			uint64 ReadUInt64();
+			std::string ReadLine();
 			std::string ReadString(int l = 0);
 			void ReadChars(char* c, int size = 0);
 			std::shared_ptr<std::vector<char>> ReadChars(int size);

@@ -1,8 +1,8 @@
 // Lic:
 // Units/Headers/Slyvina.hpp
 // Slyvina - Core Header
-// version: 22.12.15
-// Copyright (C) 2022 Jeroen P. Broks
+// version: 24.02.18
+// Copyright (C) 2022, 2023, 2024 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
@@ -28,6 +28,7 @@
 #include <memory>
 #include <string>
 #include <iostream>
+#include <algorithm>
 #include <map>
 #include <vector>
 
@@ -44,11 +45,15 @@
 #ifdef __APPLE__
 	#include <TargetConditionals.h>
 #endif
+
 		#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
 			#define SlyvWindows	
+			#define SlyvPlat "Windows"           
 			#ifdef _WIN64
 				#define SlyvWin64
+				#define SlyvXPlat "Windows 64"  
 			#else
+				#define SlyvXPlat "Windows 32"  	
 				#define SlyvWin32
 			#endif
 		#elif defined(__APPLE__)
@@ -56,23 +61,35 @@
 			#ifdef TARGET_IPHONE_SIMULATOR
 				#define SlyvIPhoneEmulator
 				#define SlyvIPhone
+				#define SlyvPlat "iPhone"
+				#define SlyvXPlat "iPhone Emulator"
 			#elif defined(TARGET_OS_IPHONE)
 				#define SlyvIPhone
 				#define SlyvIPhoneReal
-		    #elif defined(TARGET_OS_MAC)
+				#define SlyvPlat "iPhone"
+				#define SlyvXPlat "iPhone"
+			#elif defined(TARGET_OS_MAC)
 				#define SlyvMacOS
 				#define SlyvMac
+				#define SlyvPlat "Mac"
+				#define SlyvXPlat "Mac"
 			#else
 				#error "Unknown Apple platform"
 			#endif
 		#elif defined(__linux__)
+			#define SlyvPlat "Linux"
+			#define SlyvXPlat "Linux"
 			#define SlyvLinux
 		#elif defined(__unix__)
 			#define SlyvUnix
+			#define SlyvPlat "Unix"
+			#define SlyvXPlat "Unix"
 		#elif defined(_POSIX_VERSION)
+			#define SlyvPlat "POSIX"
+			#define SlyvXPlat "POSIX"
 			#define SlyvPOSIX
 		#else
-		#   error "Unknown compiler"
+			#error "Unknown compiler"
 		#endif		
 
 namespace Slyvina {
@@ -105,6 +122,15 @@ namespace Slyvina {
 #pragma endregion
 
 	inline std::string boolstring(bool k) { if (k) return "True"; else return "False"; }
+	inline std::string lboolstring(bool k) { if (k) return "true"; else return "false"; }
+	inline std::string uboolstring(bool k) { if (k) return "TRUE"; else return "FALSE"; }
+
+	inline std::string Platform(bool compact = true) {
+		if (compact)
+			return SlyvPlat;
+		else
+			return SlyvXPlat;
+	}
 
 	const double PI = 3.1415926535;
 	
@@ -112,10 +138,44 @@ namespace Slyvina {
 	inline VecString NewVecString() { return std::make_shared<std::vector<String>>(); }
 
 	typedef std::shared_ptr<std::map<std::string, std::string>> StringMap;
-	inline StringMap NewStringMap() { return std::make_shared<std::map<std::string, std::string>>(); }
+	inline StringMap NewStringMap() { return std::shared_ptr<std::map<std::string, std::string>>(new std::map<std::string,std::string>()); }
 	
 	// Quick creation functions!
 	template<class MyType> inline MyType Nieuw() { return std::make_shared<MyType>(); }
 	template<class MyType> inline std::shared_ptr<std::vector<MyType>> NewVector() { return std::make_shared<std::vector<MyType>>(); }
+
+	inline std::string CYear(uint32 oy, uint32 yn) { if (oy > yn) return "?"; if (oy < yn) return std::to_string(oy) + "-" + std::to_string(yn); return std::to_string(yn); }
+	inline std::string CYear(uint32 oy, std::string yn) { return CYear(oy, std::stoi(yn)); }
 	
+	template<class MyType> inline void SortVector(std::vector<MyType>* v) { std::sort(v->begin(), v->end()); }
+	inline void SortVecString(VecString v) {
+		if (!v) { std::cout << "SortVecString(nullptr): Cannot sort!\n\r"; return; }
+		std::sort(v->begin(), v->end()); 
+	}
+	template<class MyType> inline bool VectorContains(std::vector<MyType>& HayStack, MyType Needle) {
+		for (auto Hay : HayStack) if (Needle == Hay) return true;
+		return false;
+	}
+	inline bool VectorContains(VecString HayStack, std::string Needle) {
+		for (auto Hay : *HayStack) if (Needle == Hay) return true;
+		return false;
+	}
+	template<class MyType> inline void VectorAddUnique(std::vector<MyType>& MyVec, MyType Value) {
+		if (!VectorContains(MyVec,Value)) MyVec.push_back(Value);
+	}
+	inline void VectorAddUnique(VecString MyVec, std::string Value) {
+		if (!VectorContains(MyVec,Value)) MyVec->push_back(Value);
+	}
+
+	inline bool VecHasString(std::vector<String>* Haystack, String Needle, bool ignorecase = true) {
+		if (ignorecase)  std::transform(Needle.begin(), Needle.end(), Needle.begin(), ::toupper);
+		for (auto _hay : *Haystack) {
+			auto hay = _hay; if (ignorecase)  std::transform(hay.begin(), hay.end(), hay.begin(), ::toupper);
+			if (hay == Needle) return true;
+		}
+		return false;
+	}
+
+	inline bool VecHasString(std::vector<String>HayStack, String Needle, bool ignorecase = true) { return VecHasString(&HayStack, Needle, ignorecase); }
+	inline bool VecHasString(VecString HayStack, String Needle, bool ignorecase = true) { return VecHasString(HayStack.get(), Needle, ignorecase); }
 }

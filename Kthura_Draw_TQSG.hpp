@@ -1,8 +1,8 @@
 // Lic:
-// Units/Headers/SlyvTime.hpp
-// Slyvina - Time (header)
-// version: 23.07.22
-// Copyright (C) 2021, 2022, 2023 Jeroen P. Broks
+// Kthura/Headers/Kthura_Draw_TQSG.hpp
+// Kthura TQSG (header)
+// version: 23.11.01
+// Copyright (C) 2015-2022, 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
@@ -17,20 +17,27 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // EndLic
-#pragma once
 
-#include <time.h>
-#include <string>
+
+#pragma once
+#include "Kthura_Draw.hpp"
+#include <TQSG.hpp>
+#include <JCR6_Core.hpp>
 
 namespace Slyvina {
-	namespace Units {
-		//std::string GetTimeBuff();
-		std::string CurrentDate();
-		std::string CurrentTime();
-		std::string QTimeF(const char* f);
-		int CurrentYear();
-		tm _localtime(time_t* fuck);
-		tm LocalTime();
-		time_t TimeStamp();
+	namespace Kthura {
+
+		typedef void (*TQSGKTHURAPANIEK)(std::string);
+		extern TQSGKTHURAPANIEK TQSG_Kthura_Panic;
+		extern bool AllowTexturelessActor;
+
+		/// <summary>
+		/// This function has only been implemented for editors which could require zones and exit points to be visible and have their tags shown on screen. That requires a font to be loaded. Other than that you can best leave this be.
+		/// </summary>
+		/// <param name="F">The Font Pointer</param>
+		void TQSGKthuraFont(TQSG::TImageFont F);
+
+		KthuraDraw Init_TQSG_For_Kthura(JCR6::JT_Dir J);
+		KthuraDrawShared Init_TQSG_For_Kthura_Shared(JCR6::JT_Dir J);
 	}
 }

@@ -1,8 +1,8 @@
 // Lic:
-// Units/Headers/SlyvTime.hpp
-// Slyvina - Time (header)
-// version: 23.07.22
-// Copyright (C) 2021, 2022, 2023 Jeroen P. Broks
+// Units/Headers/SlyvQuickHead.hpp
+// Slyvina Quick Head (header)
+// version: 23.06.23
+// Copyright (C) Slyvina Quick Head (header), 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
@@ -18,19 +18,20 @@
 // 3. This notice may not be removed or altered from any source distribution.
 // EndLic
 #pragma once
-
-#include <time.h>
-#include <string>
+#include "Slyvina.hpp"
+#include "SlyvString.hpp"
+#include "SlyvMKL.hpp"
+#include "SlyvQCol.hpp"
 
 namespace Slyvina {
 	namespace Units {
-		//std::string GetTimeBuff();
-		std::string CurrentDate();
-		std::string CurrentTime();
-		std::string QTimeF(const char* f);
-		int CurrentYear();
-		tm _localtime(time_t* fuck);
-		tm LocalTime();
-		time_t TimeStamp();
+		inline void QuickHeader(std::string Name, uint32 year = 0, std::string Lic = "General Public License 3", std::string Author = "Jeroen P. Broks") {
+			if (!year) year = std::stoi(Right(__DATE__, 4));
+			QCol->LGreen(Name + "\n\n");;
+			QCol->Doing("Coded by", Author);
+			QCol->Doing("Version", Newest());
+			QCol->Magenta(TrSPrintF("(c) Copyright %s %s, %s\n",Author.c_str(), CYear(year, Right(__DATE__, 4)).c_str(),Lic.c_str()));
+			QCol->Reset(); std::cout << std::endl;
+		}
 	}
 }

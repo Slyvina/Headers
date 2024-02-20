@@ -1,8 +1,8 @@
 // Lic:
 // Units/Headers/SlyvSTOI.hpp
 // Slyvina - Alternate STOI (header)
-// version: 22.12.15
-// Copyright (C) 2021, 2022 Jeroen P. Broks
+// version: 23.06.23
+// Copyright (C) 2021, 2022, 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
@@ -34,5 +34,8 @@ namespace Slyvina {
         /// <returns>The integer generated. (0 if something goes wrong. Check STOI_Error if that happens).</returns>
         int ToInt(std::string s);
         unsigned int ToUInt(std::string s);
+
+        bool IsInt(std::string s);
+        bool IsNum(std::string s);
 	}
 }

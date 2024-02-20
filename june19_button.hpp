@@ -1,8 +1,8 @@
 // Lic:
-// Units/Headers/SlyvTime.hpp
-// Slyvina - Time (header)
-// version: 23.07.22
-// Copyright (C) 2021, 2022, 2023 Jeroen P. Broks
+// head/june19_button.hpp
+// June 19 - Button (Header)
+// version: 23.05.11
+// Copyright (C) 2020, 2021, 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
@@ -19,18 +19,12 @@
 // EndLic
 #pragma once
 
-#include <time.h>
-#include <string>
+#include "../head/june19_core.hpp"
 
 namespace Slyvina {
-	namespace Units {
-		//std::string GetTimeBuff();
-		std::string CurrentDate();
-		std::string CurrentTime();
-		std::string QTimeF(const char* f);
-		int CurrentYear();
-		tm _localtime(time_t* fuck);
-		tm LocalTime();
-		time_t TimeStamp();
+	namespace June19 {
+		j19gadget* CreateButton(std::string Caption, int x, int y, j19gadget* Parent);
+		j19gadget* CreateButton(std::string Caption, int x, int y, int w, int h, j19gadget* Parent);
+
 	}
 }

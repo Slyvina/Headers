@@ -1,8 +1,8 @@
 // Lic:
-// Units/Headers/SlyvTime.hpp
-// Slyvina - Time (header)
+// Units/Headers/SlyvOpenURL.hpp
+// Slyvina - OperURL (header)
 // version: 23.07.22
-// Copyright (C) 2021, 2022, 2023 Jeroen P. Broks
+// Copyright (C) 2021, 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
@@ -17,20 +17,11 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // EndLic
-#pragma once
 
-#include <time.h>
-#include <string>
+#pragma once
 
 namespace Slyvina {
 	namespace Units {
-		//std::string GetTimeBuff();
-		std::string CurrentDate();
-		std::string CurrentTime();
-		std::string QTimeF(const char* f);
-		int CurrentYear();
-		tm _localtime(time_t* fuck);
-		tm LocalTime();
-		time_t TimeStamp();
+		void OpenURL(const char* site);
 	}
 }

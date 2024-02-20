@@ -1,8 +1,8 @@
 // Lic:
 // Units/Headers/SlyvQCol.hpp
 // Slyvina - Quick Colors (header)
-// version: 22.12.14
-// Copyright (C) 2022 Jeroen P. Broks
+// version: 23.07.22
+// Copyright (C) 2022, 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
@@ -17,6 +17,7 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // EndLic
+
 /*
 	This quick library and its header file have been designed with the thought of 
 	color usage on the console in a cross-platform manner in mind. Since after all,
@@ -76,6 +77,8 @@ namespace Slyvina {
 			std::string Name;
 			void Doing(std::string a, std::string b, std::string ending = "\n");
 			void Doing(std::string a, int b, std::string ending = "\n");
+			void OnlyVal(std::string a, int b, std::string ending = "\n") { if (b) Doing(a, b, ending); }
+			void OnlyVal(std::string a, uint64 b, std::string ending = "\n") { if (b) Doing(a, std::to_string(b), ending); }
 			void Write(qColor c, std::string w);
 			void Error(std::string msg);
 			void Warn(std::string msg);
@@ -89,6 +92,9 @@ namespace Slyvina {
 			void Cyan(std::string a);
 			void LCyan(std::string a);
 			void Magenta(std::string a);
+			void LMagenta(std::string a);
+			void Grey(std::string a);
+			void White(std::string a);
 
 			TmpPlateQCol(QColColor c, QColReset r, std::string n);
 		};

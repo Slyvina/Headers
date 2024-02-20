@@ -1,8 +1,8 @@
 // Lic:
 // Units/Headers/SlyvString.hpp
 // Slyvina - Quick String Handler (header)
-// version: 22.12.14
-// Copyright (C) 2022 Jeroen P. Broks
+// version: 24.02.18
+// Copyright (C) 2022, 2023, 2024 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
@@ -39,14 +39,14 @@ namespace Slyvina {
 
 		inline std::string Left(std::string str, unsigned int length) { return Mid(str, 1, length); }
 		inline std::string Right(std::string str, unsigned int length) {
-			if (length > str.size()) return str;
-			return Mid(str, (str.size() - length) + 1, length);
+			if (length > (unsigned int)str.size()) return str;
+			return Mid(str, ((unsigned int)str.size() - length) + 1, length);
 		}
 		//std::string right(std::string str, size_t length) { return right(str, (unsigned int)length); }
 
 
-		inline bool Prefixed(std::string str, std::string prefix) { return Left(str, prefix.size()) == prefix; }
-		inline bool Suffixed(std::string str, std::string suffix) { return Right(str, suffix.size()) == suffix; }
+		inline bool Prefixed(std::string str, std::string prefix) { return Left(str, (unsigned int)prefix.size()) == prefix; }
+		inline bool Suffixed(std::string str, std::string suffix) { return Right(str, (unsigned int)suffix.size()) == suffix; }
 
 		/// <summary>
 		/// Find last occurance of a character in a std::string
@@ -66,7 +66,7 @@ namespace Slyvina {
 
 		inline int FindFirst(std::string str, std::string Needle) {			
 				for (int i = 0; i+Needle.size()<str.size() && i < str.size(); i++)
-					if (Mid(str,i,Needle.size()) == Needle) return i;
+					if (Mid(str,i,(unsigned int)Needle.size()) == Needle) return i;
 				return -1;			
 		}
 
@@ -174,5 +174,7 @@ namespace Slyvina {
 
 		std::wstring ToWString(const std::string& s);
 		std::string FromWString(std::wstring ws);
+
+		std::string Repeat(std::string s, uint64 times);
 	}
 }

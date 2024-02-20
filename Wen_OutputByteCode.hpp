@@ -1,8 +1,8 @@
 // Lic:
-// Units/Headers/SlyvTime.hpp
-// Slyvina - Time (header)
-// version: 23.07.22
-// Copyright (C) 2021, 2022, 2023 Jeroen P. Broks
+// Wen_OutputByteCode.hpp
+// Wendicka - Byte Code Output Routines (header)
+// version: 23.05.30
+// Copyright (C) 2023 Jeroen P. Broks
 // This software is provided 'as-is', without any express or implied
 // warranty.  In no event will the authors be held liable for any damages
 // arising from the use of this software.
@@ -17,20 +17,19 @@
 // misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 // EndLic
+
 #pragma once
 
-#include <time.h>
-#include <string>
+#include <SlyvBank.hpp>
+
+#include "Wendicka.hpp"
 
 namespace Slyvina {
-	namespace Units {
-		//std::string GetTimeBuff();
-		std::string CurrentDate();
-		std::string CurrentTime();
-		std::string QTimeF(const char* f);
-		int CurrentYear();
-		tm _localtime(time_t* fuck);
-		tm LocalTime();
-		time_t TimeStamp();
+	namespace Wendicka {
+		namespace Compile {
+			Units::Bank ToByteCode(WState S);
+			void ToByteCode(WState S, Units::Bank B);
+			void ToByteCode(WState S, Units::UBank B);			
+		}
 	}
 }
